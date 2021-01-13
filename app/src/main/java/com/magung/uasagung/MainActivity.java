@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        pb = (ProgressBar) findViewById(R.id.progress_horizontal);
+
         // ambil data berupa json dari themealdb
         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
         String url = "https://api.themoviedb.org/3/movie/now_playing?api_key=2eb6f7fe58a4bce8c1ea27287f91e637&language=en-US&page=1";
