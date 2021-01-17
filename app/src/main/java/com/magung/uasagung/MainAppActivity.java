@@ -40,10 +40,8 @@ public class MainAppActivity extends AppCompatActivity {
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-                Intent i = new Intent(getApplicationContext(), MainAppActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getApplicationContext().startActivity(i);
-                finish();
+                MainActivity.db.dataDao().deleteAll();
+                load();
 
                 new Handler().postDelayed(new Runnable() {
                     @Override public void run() {
@@ -69,6 +67,52 @@ public class MainAppActivity extends AppCompatActivity {
         movies = MainActivity.db.dataDao().getAll(); //Ambil semua data
         adapter = new DataAdapter(movies, this);
         view.setAdapter(adapter);
+    }
+
+    private void load() {
+        // ambil data berupa json dari themealdb
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://api.themoviedb.org/3/movie/now_playing?api_key=2eb6f7fe58a4bce8c1ea27287f91e637&language=en-US&page=1";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("cek json: ", response.toString());
+
+                        String id, nama, image;
+
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("results");
+                            if (jsonArray.length() != 0) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject data = jsonArray.getJSONObject(i);
+
+                                    nama = data.getString("original_title").toString().trim();
+                                    image = data.getString("poster_path").toString().trim();
+
+                                    // masukkan melalui dao
+                                    MainActivity.db.dataDao().insertAll(new Movie(nama, image));
+                                }
+                                showRecycleView();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("error : ", error.toString());
+                    }
+                }
+        );
+
+        queue.add(jsonObjectRequest);
     }
 
 }

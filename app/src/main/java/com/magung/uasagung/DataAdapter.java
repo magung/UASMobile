@@ -74,6 +74,7 @@ public class DataAdapter  extends RecyclerView.Adapter<DataAdapter.CardViewHolde
                 alertDialog.setNeutralButton("HAPUS", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        MainActivity.db.dataDao().delete(movies.get(pos));
                         movies.remove(pos); //hapus data
                         notifyItemRemoved(pos); //refresh data
                         notifyDataSetChanged();

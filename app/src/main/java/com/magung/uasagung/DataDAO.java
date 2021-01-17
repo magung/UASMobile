@@ -13,6 +13,9 @@ public abstract class DataDAO {
     @Query("SELECT * FROM Movie")
     public abstract List<Movie> getAll();
 
+    @Query("DELETE FROM Movie")
+    public abstract void deleteAll();
+
     @Insert
     public abstract void insertAll(Movie movie);
 
