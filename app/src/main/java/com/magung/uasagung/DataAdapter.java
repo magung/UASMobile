@@ -62,8 +62,8 @@ public class DataAdapter  extends RecyclerView.Adapter<DataAdapter.CardViewHolde
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-                alertDialog.setTitle("Operasi data");
-                alertDialog.setMessage(id +" - "+ nama);
+                alertDialog.setTitle("Movie");
+                alertDialog.setMessage(nama);
                 alertDialog.setPositiveButton("BATAL", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -74,42 +74,9 @@ public class DataAdapter  extends RecyclerView.Adapter<DataAdapter.CardViewHolde
                 alertDialog.setNeutralButton("HAPUS", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        RequestQueue queue = Volley.newRequestQueue(context);
-                        String url = "https://rest-api-agung-411.000webhostapp.com/api/produk.php?action=hapus&id="+ id;
-
-                        JsonObjectRequest jsObjRequest = new JsonObjectRequest(
-                                Request.Method.POST,
-                                url,
-                                null,
-                                new Response.Listener<JSONObject>() {
-
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        String id, nama, telp;
-
-                                        if (response.optString("result").equals("true")){
-                                            Toast.makeText(context, "Data berhasil dihapus!", Toast.LENGTH_SHORT).show();
-
-                                            movies.remove(pos); //hapus baris customers
-                                            notifyItemRemoved(pos); //refresh customer list ( ada animasinya )
-                                            notifyDataSetChanged();
-
-                                        }else{
-                                            Toast.makeText(context, "Gagal hapus data", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                }, new Response.ErrorListener() {
-
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // TODO Auto-generated method stub
-                                Log.d("Events: ", error.toString());
-
-                                Toast.makeText(context, "Please check your connection", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                        queue.add(jsObjRequest);
+                        movies.remove(pos); //hapus data
+                        notifyItemRemoved(pos); //refresh data
+                        notifyDataSetChanged();
                     }
                 });
 

@@ -62,7 +62,7 @@ public class MainAppActivity extends AppCompatActivity {
     }
 
     private void showRecycleView() {
-        RecyclerView view = (RecyclerView) findViewById(R.id.rv_meal);
+        RecyclerView view = (RecyclerView) findViewById(R.id.rv);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this,2);
         view.setLayoutManager(mLayoutManager);
 

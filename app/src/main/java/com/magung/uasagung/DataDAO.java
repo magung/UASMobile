@@ -14,11 +14,11 @@ public abstract class DataDAO {
     public abstract List<Movie> getAll();
 
     @Insert
-    public abstract void insertAll(Movie meal);
+    public abstract void insertAll(Movie movie);
 
     @Update
-    public abstract void update(Movie meal);
+    public abstract void update(Movie movie);
 
     @Delete
-    public abstract void delete(Movie meal);
+    public abstract void delete(Movie movie);
 }
